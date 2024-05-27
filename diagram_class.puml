@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface ISubscriber {
+    + {abstract} subscribe(message : string) : void
+}
+
+ISubscriber <.. INotify
+interface INotify {
+    + {abstract} notify() : void
+
+    + {abstract} addSubscriber(subscriber : ISubscriber) : void
+    + {abstract} delSubscriber(subscriber : ISubscriber) : void
+}
+
+INotify <|.. BaseNotify
+ISubscriber <--* BaseNotify
+abstract class BaseNotify {
+    # listOfSubscribers : ISubscriber[]
+    # message : string
+
+    # notify() : void
+
+    + addSubscriber(subscriber : ISubscriber) : void
+    + delSubscriber(subscriber : ISubscriber) : void
+}
+
+BaseNotify <|-- Person
+ISubscriber <|.. Person
+class Person {
+    - name : string
+
+    + subscribe(message : string) : void
+
+    + post(message : string) : void
+}
+
+@enduml
